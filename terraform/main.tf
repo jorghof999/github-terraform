@@ -4,19 +4,15 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "4.0.1"
-        }
-      }
-      backend "azurerm" {
-        resource_group_name  = "jhnrgbackend"              # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
-        storage_account_name = "jhnsabv7onw"                  # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-        container_name       = "jhnscbackend"               # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-        key                  = "backend.terraform.tfstate" # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
-      }
+    }
+  }
 }
 
 # Definerer Azure Resource Manager (azurerm) provider og spesifiserer abonnement ID
 provider "azurerm" {
-  subscription_id = "c07d12e1-5880-4a69-837d-8004c99145fc"
+## Subscription ID er ikke så farlig at ligger her, azure cli klikker hvis den ikke finner den i fila,
+## selv om jeg er logget inn... go figure
+   subscription_id = "c07d12e1-5880-4a69-837d-8004c99145fc"
   features {
     key_vault {
       purge_soft_delete_on_destroy    = false # Satt til false så jeg slipper å vente 10 min
@@ -26,9 +22,9 @@ provider "azurerm" {
 }
 
 resource "random_string" "random_string" {
-  length  = 5
-  special = false
-  upper   = false
+    length = 5
+    special = false
+    upper = false
 }
 
 resource "azurerm_resource_group" "rg_backend" {
@@ -41,10 +37,10 @@ resource "azurerm_storage_account" "sa_backend" {
   resource_group_name      = azurerm_resource_group.rg_backend.name
   location                 = azurerm_resource_group.rg_backend.location
   account_tier             = "Standard"
-  account_replication_type = "GRS"
+  account_replication_type = "GRS" 
 }
 
-resource "azurerm_storage_container" "sc_backend" {
+resource azurerm_storage_container "sc_backend" {
   name                  = var.sc_backend
   storage_account_name  = azurerm_storage_account.sa_backend.name
   container_access_type = "private"
