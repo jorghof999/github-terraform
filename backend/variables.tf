@@ -27,3 +27,8 @@ variable "sa_backend_access_key_name" {
   type        = string
   description = "Navnet til access key for storage account til backend"
 }
+
+variable "subscription_id" {    
+  type        = string
+  description = "Subscription ID"
+}

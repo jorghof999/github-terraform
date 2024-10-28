@@ -16,7 +16,7 @@ terraform {
 
 # Definerer Azure Resource Manager (azurerm) provider og spesifiserer abonnement ID
 provider "azurerm" {
-  subscription_id = "c07d12e1-5880-4a69-837d-8004c99145fc"
+  subscription_id = var.subscription_id
   features {
     key_vault {
       purge_soft_delete_on_destroy    = false # Satt til false så jeg slipper å vente 10 min
